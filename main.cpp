@@ -114,6 +114,34 @@ void show_histogram_text(vector<size_t> bins, size_t bin_count)
 
 }
 
+void
+svg_begin(double width, double height) {
+    cout << "<?xml version='1.0' encoding='UTF-8'?>\n";
+    cout << "<svg ";
+    cout << "width='" << width << "' ";
+    cout << "height='" << height << "' ";
+    cout << "viewBox='0 0 " << width << " " << height << "' ";
+    cout << "xmlns='http://www.w3.org/2000/svg'>\n";
+}
+
+void
+svg_end() {
+    cout << "</svg>\n";
+}
+
+void
+svg_text(double left, double baseline, string text) {
+    cout << "<text x='" << left << "' y='"<<baseline<<"'>text</text>";
+
+}
+
+
+void show_histogram_svg(const vector<size_t>& bins) {
+   svg_begin(400, 300);
+   svg_text(20, 20, to_string(bins[0]));
+    svg_end();
+}
+
 
 
 
@@ -122,7 +150,7 @@ int main()
 
 
     size_t number_count;
-    cout<<"Enter number count:";
+    cerr<<"Enter number count:";
     cin>>number_count;
 
     const vector<double> numbers=input_numbers(number_count);
@@ -130,18 +158,17 @@ int main()
 
 
     size_t bin_count;
-    cout<<"Enter bin_count";
+    cerr<<"Enter bin_count";
     cin>>bin_count;
 
-//vector<size_t> bins (bin_count,0);
+
     double min,max;
     find_minmax(numbers,min,max,number_count);
-    cout<<"min,max"<<min<<max<<endl;
+
 
     vector<size_t> bins=make_histogram(numbers,bin_count,max,min);
 
-    show_histogram_text(bins,bin_count);
-
+show_histogram_svg(bins);
 
     return 0;
 
